@@ -1,0 +1,6 @@
+CafeAdmin\UpdateManagingStaffServlet.class
+CafeAdmin\AddStaffServlet.class
+CafeAdmin\ManageStaffServlet.class
+CafeAdmin\DeleteStaffServlet.class
+CafeAdmin\SearchStaffServlet.class
+LoginServlet.class
