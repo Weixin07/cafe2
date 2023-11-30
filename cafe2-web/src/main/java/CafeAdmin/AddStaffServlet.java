@@ -15,16 +15,16 @@ import managingStaff.ManagingStaffFacade;
 public class AddStaffServlet extends HttpServlet {
 
     @EJB
-    private ManagingStaffFacade managingStaffFacade;
+    ManagingStaffFacade msf; // Use EJB to interact with ManagingStaff entity
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String adminID = request.getParameter("adminID");
-        
+
         try (PrintWriter out = response.getWriter()) {
             try {
                 if (password.length() < 8 || password.length() > 16) {
@@ -32,8 +32,8 @@ public class AddStaffServlet extends HttpServlet {
                     request.setAttribute("hideMessageLabel", false);
                     request.getRequestDispatcher("addStaff.jsp").include(request, response);
                 } else {
-                    managingStaffFacade.create(new ManagingStaff(username, password, adminID));
-                    
+                    msf.create(new ManagingStaff(username, password, adminID));
+
                     String messageColor = "green";
                     request.setAttribute("messageColor", messageColor);
                     request.setAttribute("messageLabelText", "Staff successfully added!");

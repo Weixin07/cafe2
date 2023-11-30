@@ -51,14 +51,14 @@ public class SearchStaffServlet extends HttpServlet {
                 }
 
                 request.setAttribute("uNameLabelText", admin.getAdminUsername());
-                request.getRequestDispatcher("searchStaff.jsp").forward(request, response);
+                request.getRequestDispatcher("SearchStaff.jsp").forward(request, response);
 
-            } catch (Exception e) {
+            } catch (ServletException | IOException e) {
                 request.setAttribute("messageLabelText", "Error fetching Staff, Please Try Again! " + e);
                 request.setAttribute("hideMessageLabel", false);
                 request.setAttribute("uNameLabelText", admin.getAdminUsername());
                 request.setAttribute("hideStaffTableLabel", true);
-                request.getRequestDispatcher("SearchStaffServlet.jsp").include(request, response);
+                request.getRequestDispatcher("SearchStaff.jsp").include(request, response);
             }
         }
     }

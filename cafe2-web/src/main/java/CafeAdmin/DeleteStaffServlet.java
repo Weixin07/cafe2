@@ -36,13 +36,13 @@ public class DeleteStaffServlet extends HttpServlet {
             request.setAttribute("messageLabelText", "Staff Successfully Deleted!");
             request.setAttribute("hideMessageLabel", false);
             request.setAttribute("uNameLabelText", admin.getAdminUsername());
-            request.getRequestDispatcher("deleteStaffSuccess.jsp").include(request, response);
+            request.getRequestDispatcher("DeleteStaff.jsp").include(request, response);
 
-        } catch (Exception e) {
+        } catch (ServletException | IOException e) {
             request.setAttribute("messageLabelText", "Error Deleting Staff: " + e.getMessage());
             request.setAttribute("hideMessageLabel", false);
             request.setAttribute("uNameLabelText", admin.getAdminUsername());
-            request.getRequestDispatcher("deleteStaffFailure.jsp").include(request, response);
+            request.getRequestDispatcher("DeleteStaff.jsp").include(request, response);
         }
     }
 

@@ -60,6 +60,10 @@
         <servlet-name>UpdateManagingStaffServlet</servlet-name>
         <servlet-class>CafeAdmin.UpdateManagingStaffServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminDashboardServlet</servlet-name>
+        <servlet-class>CafeAdmin.AdminDashboardServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CafeAdmin</servlet-name>
         <url-pattern>/CafeAdmin</url-pattern>
@@ -103,5 +107,9 @@
     <servlet-mapping>
         <servlet-name>UpdateManagingStaffServlet</servlet-name>
         <url-pattern>/UpdateManagingStaffServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminDashboardServlet</servlet-name>
+        <url-pattern>/AdminDashboardServlet</url-pattern>
     </servlet-mapping>
 </web-app>

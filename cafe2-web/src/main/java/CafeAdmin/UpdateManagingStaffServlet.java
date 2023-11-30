@@ -17,7 +17,7 @@ import managingStaff.ManagingStaffFacade;
 public class UpdateManagingStaffServlet extends HttpServlet {
 
     @EJB
-    private ManagingStaffFacade managingStaffFacade;
+    ManagingStaffFacade msf; // Use EJB to interact with ManagingStaff entitycade;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -42,20 +42,20 @@ public class UpdateManagingStaffServlet extends HttpServlet {
                     staff.setManagingStaffUsername(username);
                     staff.setManagingStaffPassword(password);
                     staff.setAdminID(adminId);
-                    managingStaffFacade.edit(staff); // Assuming edit method is implemented in EJB
+                    msf.edit(staff); // Assuming edit method is implemented in EJB
 
                     String messageColor = "green";
                     request.setAttribute("messageColor", messageColor);
                     request.setAttribute("messageLabelText", "Managing Staff Info Successfully Edited!");
                     request.setAttribute("hideMessageLabel", false);
                     request.setAttribute("adminNameLabelText", admin.getAdminID());
-                    request.getRequestDispatcher("updateManagingStaff.jsp").include(request, response);
+                    request.getRequestDispatcher("UpdateManagingStaff.jsp").include(request, response);
                 }
             } catch (Exception e) {
                 request.setAttribute("messageLabelText", "Invalid Managing Staff Details, Please Try Again! " + e);
                 request.setAttribute("hideMessageLabel", false);
                 request.setAttribute("adminNameLabelText", admin.getAdminID());
-                request.getRequestDispatcher("updateManagingStaff.jsp").include(request, response);
+                request.getRequestDispatcher("UpdateManagingStaff.jsp").include(request, response);
             }
         }
     }

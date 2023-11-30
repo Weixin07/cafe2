@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 
             if (rs.next()) {
                 // Valid login, redirect to admin dashboard
-                response.sendRedirect("adminDashboard.jsp");
+                response.sendRedirect("AdminDashboard.jsp");
             } else {
                 // Invalid login, redirect back to login page with an error message
                 response.sendRedirect("login.jsp?error=Invalid credentials");
