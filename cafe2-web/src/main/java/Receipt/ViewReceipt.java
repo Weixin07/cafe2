@@ -5,8 +5,8 @@
  */
 package Receipt;
 
-import Buyer.Buyer;
-import Seller.Seller;
+import sAdmin.SAdmin;
+import SStaff.SStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -37,8 +37,8 @@ public class ViewReceipt extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         HttpSession s = request.getSession();
-        Buyer buyer = (Buyer)s.getAttribute("user");
-        Seller seller = (Seller)s.getAttribute("seller");
+        SAdmin buyer = (SAdmin)s.getAttribute("user");
+        SStaff seller = (SStaff)s.getAttribute("seller");
         
             if (seller!=null){
                 request.setAttribute("hideSMRELabel", false);

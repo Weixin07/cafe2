@@ -1,6 +1,6 @@
 package Seller;
 
-import Staff.Staff;
+import MStaff.MStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,7 +19,7 @@ public class ManageSeller extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession s = request.getSession();
-            Staff staff = (Staff)s.getAttribute("staff");
+            MStaff staff = (MStaff)s.getAttribute("staff");
             request.setAttribute("uNameLabelText", staff.getStName());  
             request.getRequestDispatcher("manageSeller.jsp").include(request, response);
         }

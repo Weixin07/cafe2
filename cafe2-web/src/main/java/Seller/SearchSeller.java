@@ -5,7 +5,9 @@
  */
 package Seller;
 
-import Staff.Staff;
+import SStaff.SStaffFacade;
+import SStaff.SStaff;
+import MStaff.MStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import jakarta.servlet.http.HttpSession;
 public class SearchSeller extends HttpServlet {
     
     @EJB
-    SellerFacade sf;
+    SStaffFacade sf;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,17 +34,17 @@ public class SearchSeller extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
      
         HttpSession s = request.getSession();
-        Staff staff = (Staff)s.getAttribute("staff");
+        MStaff staff = (MStaff)s.getAttribute("staff");
         String searchSeller = request.getParameter("searchSeller");
         
         try{
             
        
-            List<Seller> sellerList = sf.findAll();
-            List<Seller> filteredSeller = new ArrayList<>();
+            List<SStaff> sellerList = sf.findAll();
+            List<SStaff> filteredSeller = new ArrayList<>();
             boolean pFound = false;
             
-            for(Seller sell : sellerList){
+            for(SStaff sell : sellerList){
                 if (sell.getsEmail().toLowerCase().contains(searchSeller.toLowerCase())) {
                     filteredSeller.add(sell);
                     pFound = true;

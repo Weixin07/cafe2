@@ -1,5 +1,7 @@
 package Seller;
 
+import SStaff.SStaffFacade;
+import SStaff.SStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.ejb.EJB;
@@ -14,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class SellerRegister extends HttpServlet {
 
     @EJB
-    private SellerFacade sf;
+    private SStaffFacade sf;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -61,7 +63,7 @@ public class SellerRegister extends HttpServlet {
                 }else{
                 
      
-                sf.create(new Seller(sEmail, sName, sPass, Integer.parseInt(sPhoneNo), sAge, sGender, sAddress,'P'));
+                sf.create(new SStaff(sEmail, sName, sPass, Integer.parseInt(sPhoneNo), sAge, sGender, sAddress,'P'));
                 
                 String c ="green";
                 request.setAttribute("messageColor", c);

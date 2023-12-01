@@ -5,6 +5,7 @@
  */
 package Staff;
 
+import MStaff.MStaff;
 import Receipt.Receipt;
 import Receipt.ReceiptFacade;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class ViewCharts extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession s = request.getSession();
-            Staff staff = (Staff)s.getAttribute("staff");
+            MStaff staff = (MStaff)s.getAttribute("staff");
             request.setAttribute("uNameLabelText", staff.getStName());
             List<Receipt> receiptList = rf.findAll();
             request.setAttribute("receiptList", receiptList);

@@ -5,7 +5,8 @@
  */
 package Staff;
 
-import Staff.Staff;
+import MStaff.MStaffFacade;
+import MStaff.MStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.ejb.EJB;
@@ -24,7 +25,7 @@ import jakarta.servlet.http.HttpSession;
 public class AddStaff extends HttpServlet {
 
     @EJB
-    StaffFacade stf;
+    MStaffFacade stf;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -80,7 +81,7 @@ public class AddStaff extends HttpServlet {
                    
             
             // Save the property details in the database
-                stf.create(new Staff(stEmail,stName,stPass,stAge,stAddress,Integer.parseInt(stPhoneNo)));
+                stf.create(new MStaff(stEmail,stName,stPass,stAge,stAddress,Integer.parseInt(stPhoneNo)));
                 
                 //request.setAttribute("property", property);
                 String c ="green";

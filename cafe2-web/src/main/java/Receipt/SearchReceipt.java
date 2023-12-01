@@ -6,8 +6,8 @@
 package Receipt;
 
 import Receipt.*;
-import Seller.Seller;
-import Staff.Staff;
+import SStaff.SStaff;
+import MStaff.MStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class SearchReceipt extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
        
         HttpSession s = request.getSession();
-        Staff staff = (Staff)s.getAttribute("staff");
+        MStaff staff = (MStaff)s.getAttribute("staff");
         
         
         try (PrintWriter out = response.getWriter()) {

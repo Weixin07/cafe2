@@ -5,13 +5,13 @@
  */
 package Receipt;
 
-import Buyer.Buyer;
-import Offer.Offer;
-import Offer.OfferFacade;
-import Property.Property;
-import Property.PropertyFacade;
-import Seller.Seller;
-import Staff.Staff;
+import sAdmin.SAdmin;
+import sOrder.SOrder;
+import sOrder.SOrderFacade;
+import Menu.Menu;
+import Menu.MenuFacade;
+import SStaff.SStaff;
+import MStaff.MStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -36,20 +36,20 @@ public class LoadReceiptTable extends HttpServlet {
     @EJB 
     ReceiptFacade rf;
     @EJB
-    OfferFacade of;
+    SOrderFacade of;
     @EJB
-    PropertyFacade pf;
+    MenuFacade pf;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession s = request.getSession();
-        Seller seller = (Seller)s.getAttribute("seller");
-        Buyer buyer = (Buyer)s.getAttribute("user");
-        Staff staff = (Staff)s.getAttribute("staff");
+        SStaff seller = (SStaff)s.getAttribute("seller");
+        SAdmin buyer = (SAdmin)s.getAttribute("user");
+        MStaff staff = (MStaff)s.getAttribute("staff");
         
         List<Receipt> receipt = rf.findAll();
-        List<Offer> offer = of.findAll();
+        List<SOrder> offer = of.findAll();
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
         
@@ -57,7 +57,7 @@ public class LoadReceiptTable extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
           if (buyer != null){
           for (Receipt rec : receipt) {
-              for(Offer off : offer){
+              for(SOrder off : offer){
                     if (rec.getoId() == off.getoId() && buyer.getbUsername().equals(off.getbEmail())){ 
                      out.println("<tr>");
                      out.println("<td>" + rec.getrId() + "</td>");
@@ -71,7 +71,7 @@ public class LoadReceiptTable extends HttpServlet {
             }
         }if(seller != null){
             for (Receipt rec : receipt) {
-              for(Offer off : offer){
+              for(SOrder off : offer){
                     if (rec.getoId() == off.getoId() && seller.getsEmail().equals(off.getpSeller())){ 
                      out.println("<tr>");
                      out.println("<td>" + rec.getrId() + "</td>");

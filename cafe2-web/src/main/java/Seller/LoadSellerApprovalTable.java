@@ -5,6 +5,8 @@
  */
 package Seller;
 
+import SStaff.SStaffFacade;
+import SStaff.SStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -21,18 +23,18 @@ import jakarta.servlet.http.HttpSession;
 public class LoadSellerApprovalTable extends HttpServlet {
 
     @EJB
-    SellerFacade sf;
+    SStaffFacade sf;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession s = request.getSession();
 
-        List <Seller> seller = sf.findAll();
+        List <SStaff> seller = sf.findAll();
 
         try (PrintWriter out = response.getWriter()) {
             
-            for (Seller sell : seller) {
+            for (SStaff sell : seller) {
                 if(sell.getsApproval() == 'P'){
                 out.println("<tr>");
                 out.println("<td>" + sell.getsName()+ "</td>");

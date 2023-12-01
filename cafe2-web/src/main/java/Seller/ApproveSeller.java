@@ -5,8 +5,9 @@
  */
 package Seller;
 
-import Staff.*;
-import Staff.Staff;
+import SStaff.SStaffFacade;
+import SStaff.SStaff;
+import MStaff.MStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.ejb.EJB;
@@ -25,13 +26,13 @@ import jakarta.servlet.http.HttpSession;
 public class ApproveSeller extends HttpServlet {
 
         @EJB
-        SellerFacade sf;
+        SStaffFacade sf;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession s = request.getSession();
-        Staff staff = (Staff)s.getAttribute("staff");
+        MStaff staff = (MStaff)s.getAttribute("staff");
         
         try{
   
@@ -43,7 +44,7 @@ public class ApproveSeller extends HttpServlet {
         String sAddress = request.getParameter("sAddress");
         String sPass = request.getParameter("sPass");
 
-        Seller seller = new Seller();
+        SStaff seller = new SStaff();
         
                 if(sName.length()<3){
                     request.setAttribute("messageLabelText", "Make sure your Name is at least 3 characters");

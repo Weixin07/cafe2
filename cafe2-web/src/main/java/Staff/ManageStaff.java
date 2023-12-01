@@ -5,7 +5,7 @@
  */
 package Staff;
 
-import Seller.Seller;
+import SStaff.SStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

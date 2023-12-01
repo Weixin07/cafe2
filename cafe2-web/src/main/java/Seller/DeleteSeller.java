@@ -5,7 +5,9 @@
  */
 package Seller;
 
-import Staff.Staff;
+import SStaff.SStaffFacade;
+import SStaff.SStaff;
+import MStaff.MStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.ejb.EJB;
@@ -21,14 +23,14 @@ import jakarta.servlet.http.HttpSession;
 public class DeleteSeller extends HttpServlet {
     
     @EJB
-    SellerFacade sf;
+    SStaffFacade sf;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession s = request.getSession();
-        Staff staff = (Staff)s.getAttribute("staff");
-        Seller sell = new Seller();
+        MStaff staff = (MStaff)s.getAttribute("staff");
+        SStaff sell = new SStaff();
         
         try (PrintWriter out = response.getWriter()) {
             

@@ -1,5 +1,7 @@
 package Staff;
 
+import MStaff.MStaffFacade;
+import MStaff.MStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.ejb.EJB;
@@ -13,7 +15,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "EditStaff", urlPatterns = {"/EditStaff"})
 public class EditStaff extends HttpServlet {
     @EJB
-    StaffFacade stf;
+    MStaffFacade stf;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {       
@@ -21,7 +23,7 @@ public class EditStaff extends HttpServlet {
     try (PrintWriter out = response.getWriter()) {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession s = request.getSession();
-        Staff staff = (Staff)s.getAttribute("staff");
+        MStaff staff = (MStaff)s.getAttribute("staff");
 
         try{
         String stName = request.getParameter("stName");
@@ -67,7 +69,7 @@ public class EditStaff extends HttpServlet {
                 request.setAttribute("uNameLabelText", "Master");
                 request.getRequestDispatcher("editStaff.jsp").include(request, response);
             }else{
-                Staff st = new Staff();
+                MStaff st = new MStaff();
                 st.setStEmail(stEmail);
                 st.setStName(stName);
                 st.setStPassword(stPass);

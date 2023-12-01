@@ -5,7 +5,7 @@
  */
 package Receipt;
 
-import Buyer.Buyer;
+import sAdmin.SAdmin;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -31,7 +31,7 @@ public class EditReceipt extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession s = request.getSession();
-        Buyer buyer = (Buyer)s.getAttribute("user");
+        SAdmin buyer = (SAdmin)s.getAttribute("user");
 
         try{
         int rId = Integer.parseInt(request.getParameter("rId"));

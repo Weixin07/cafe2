@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import Property.Property;
-import Staff.Staff;
-import Staff.StaffFacade;
+import Menu.Menu;
+import MStaff.MStaff;
+import MStaff.MStaffFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -25,16 +25,16 @@ import jakarta.servlet.http.HttpSession;
 public class LoadStaffTable extends HttpServlet {
 
     @EJB
-    StaffFacade stf;
+    MStaffFacade stf;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession s = request.getSession();
            
-            List<Staff> staff = stf.findAll();
+            List<MStaff> staff = stf.findAll();
 
-            for (Staff st : staff) {
+            for (MStaff st : staff) {
                 out.println("<tr>");
                 out.println("<td>" + st.getStName() + "</td>");
                 out.println("<td>" + st.getStEmail() + "</td>");

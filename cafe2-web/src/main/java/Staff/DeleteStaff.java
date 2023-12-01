@@ -1,6 +1,8 @@
 package Staff;
 
-import Seller.Seller;
+import MStaff.MStaffFacade;
+import MStaff.MStaff;
+import SStaff.SStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.ejb.EJB;
@@ -15,12 +17,12 @@ import jakarta.servlet.http.HttpSession;
 public class DeleteStaff extends HttpServlet {
 
     @EJB
-    StaffFacade stf;
+    MStaffFacade stf;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession s = request.getSession();
-        Staff sTf = new Staff();
+        MStaff sTf = new MStaff();
         
         try (PrintWriter out = response.getWriter()) {
             

@@ -5,6 +5,8 @@
  */
 package Seller;
 
+import SStaff.SStaffFacade;
+import SStaff.SStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.ejb.EJB;
@@ -23,7 +25,7 @@ import jakarta.servlet.http.HttpSession;
 public class EditSellerProfile extends HttpServlet {
 
     @EJB
-    private SellerFacade sf;
+    private SStaffFacade sf;
         
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,7 +51,7 @@ public class EditSellerProfile extends HttpServlet {
         String sCurrentPass = request.getParameter("sEditCurrentPass");
         String sNewPass = request.getParameter("sEditNewPass");
         String sConfNewPass = request.getParameter("sEditConfNewPass");
-        Seller seller = (Seller)s.getAttribute("seller");
+        SStaff seller = (SStaff)s.getAttribute("seller");
    
 
         try (PrintWriter out = response.getWriter()) {

@@ -1,5 +1,6 @@
 package Staff;
 
+import MStaff.MStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,7 +18,7 @@ public class FeedbackAnalysis extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
        
          HttpSession s = request.getSession();
-         Staff staff = (Staff)s.getAttribute("staff");
+         MStaff staff = (MStaff)s.getAttribute("staff");
          request.setAttribute("uNameLabelText", staff.getStName());
          request.getRequestDispatcher("feedbackAnalysis.jsp").include(request, response);
         

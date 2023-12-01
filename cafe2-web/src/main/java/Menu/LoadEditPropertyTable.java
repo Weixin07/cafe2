@@ -1,0 +1,96 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Menu;
+
+import Menu.MenuFacade;
+import Menu.Menu;
+import SStaff.SStaff;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import jakarta.ejb.EJB;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+/**
+ *
+ * @author pc
+ */
+@WebServlet(name = "LoadEditPropertyTable", urlPatterns = {"/LoadEditPropertyTable"})
+public class LoadEditPropertyTable extends HttpServlet {
+
+    @EJB
+    MenuFacade pf;
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            HttpSession s = request.getSession();
+            SStaff seller = (SStaff)s.getAttribute("seller");
+            List<Menu> prop = pf.findAll();
+
+            for (Menu property : prop) {
+               if (property.getpSeller().equals(seller.getsEmail())){ 
+                out.println("<tr>");
+                out.println("<td>" + property.getpId() + "</td>");
+                out.println("<td>" + property.getpSaleType() + "</td>");
+                out.println("<td>" + property.getpPrice() + "</td>");
+                out.println("<td>" + property.getpAddress() + "</td>");
+                out.println("<td>" + property.getpType() + "</td>");
+                out.println("<td>" + property.getpSize() + "</td>");
+                out.println("<td>" + property.getpFurnish() + "</td>");
+                out.println("<td>" + property.getpBuild() + "</td>");
+                out.println("<td>" + property.getpDescription() + "</td>");
+                out.println("</tr>");
+               }
+            }
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}

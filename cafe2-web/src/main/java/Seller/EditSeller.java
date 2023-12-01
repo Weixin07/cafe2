@@ -1,6 +1,8 @@
 package Seller;
 
-import Staff.Staff;
+import SStaff.SStaffFacade;
+import SStaff.SStaff;
+import MStaff.MStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.ejb.EJB;
@@ -16,7 +18,7 @@ import jakarta.servlet.http.HttpSession;
 public class EditSeller extends HttpServlet {
     
     @EJB
-    SellerFacade sf;
+    SStaffFacade sf;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -24,8 +26,8 @@ public class EditSeller extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession s = request.getSession();
-        Staff staff = (Staff)s.getAttribute("staff");
-        Seller seller = new Seller();
+        MStaff staff = (MStaff)s.getAttribute("staff");
+        SStaff seller = new SStaff();
         
         try{
         String sName = request.getParameter("sName");

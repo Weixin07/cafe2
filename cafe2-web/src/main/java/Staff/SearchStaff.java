@@ -5,7 +5,9 @@
  */
 package Staff;
 
-import Seller.Seller;
+import MStaff.MStaffFacade;
+import MStaff.MStaff;
+import SStaff.SStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import jakarta.servlet.http.HttpSession;
 public class SearchStaff extends HttpServlet {
  
     @EJB 
-    StaffFacade stf;
+    MStaffFacade stf;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,11 +43,11 @@ public class SearchStaff extends HttpServlet {
         try{
             
             // Retrieve the filtered property data based on the search address from the database
-            List<Staff> staffList = stf.findAll();
-            List<Staff> filteredStaff = new ArrayList<>();
+            List<MStaff> staffList = stf.findAll();
+            List<MStaff> filteredStaff = new ArrayList<>();
             boolean pFound = false;
             
-            for(Staff sTf : staffList){
+            for(MStaff sTf : staffList){
                 if (sTf.getStEmail().toLowerCase().contains(searchStaff.toLowerCase())) {
                     filteredStaff.add(sTf);
                     pFound = true;
