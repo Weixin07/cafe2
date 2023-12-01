@@ -1,5 +1,4 @@
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="Receipt.Receipt"%>
+<%@page import="SStaff.SStaff"%>
 <%@page import="java.util.List"%>
 <%@page import="Property.Property"%>
 <%@page import="Property.Property"%>
@@ -15,6 +14,8 @@
     }
 
     .container form {
+        flex: 1 0 25%; /* Use flex property to fill available space with a minimum of one-third width */
+        width: 50%;
         padding: 30px;
         background-color: #fff;
         border-radius: 5px;
@@ -104,21 +105,18 @@
         text-align: center;
     }
 
-    #left-side{
-        padding-top:25px;
-        display:inline-block;
-        width:50%;
-    }
-
     #messageLabelText {
         color: red;
         color: ${messageColor};
     }
 </style>
 <script>
-    document.title = "Feedback Analysis";
+    document.title = "Search Stall Staff";
 
-    document.getElementById('AMSLabel').style.display = 'none';
+    document.getElementById('EPLabel').style.display = 'none';
+    document.getElementById('SMBLabel').style.display = 'none';
+    document.getElementById('SMSLabel').style.display = 'none';
+    document.getElementById('SFBALabel').style.display = 'none';
     document.getElementById('BVPHLabel').style.display = 'none';
     document.getElementById('SMRELabel').style.display = 'none';
     document.getElementById('SVPHLabel').style.display = 'none';
@@ -161,11 +159,11 @@
     }
 
 // Function to load the property data into the table
-    function loadReceiptTable() {
-        fetch('LoadReceiptTable')
+    function loadSStaffTable() {
+        fetch('LoadSStaffTable')
                 .then(response => response.text())
                 .then(data => {
-                    const propertyTableBody = document.getElementById('ReceiptViewTableBody');
+                    const propertyTableBody = document.getElementById('sStaffViewTableBody');
                     propertyTableBody.innerHTML = data;
                 })
                 .catch(error => {
@@ -174,59 +172,50 @@
     }
 
 // Call the function to load the property table when the page loads
-    window.addEventListener('DOMContentLoaded', loadReceiptTable);
+    window.addEventListener('DOMContentLoaded', loadSStaffTable);
 </script>
+
+
 
 <main>
     <div class="container">
-        <div id="left-side">
-            <form class="form-container" action="SearchReceipt" method="POST">
-                <h1>Search Receipt</h1>
-                <input type="text" name="searchReceipt" placeholder="Search Receipt ID">
-                <br>
-                <input type="submit" value="Search">
-                <br>
-                <p id="messageLabelText" ${hideMessageLabel ? 'style="display:none;"' : ''}>${messageLabelText}</p>
-
-            </form>
-            <form id="ChartLabel"  class="form-container" ${hideChartLabel ? 'style="display:none;"' : ''} action="ViewCharts" method="POST"> 
-                <h1>Visualize Data</h1>
-                <input type="submit" value="Generate Charts"/>
-            </form>
-        </div>
+        <form class="form-container" action="SearchSStaff" method="POST">
+            <h1>Search Staff</h1>
+            <input type="text" name="searchSStaff" placeholder="Enter Username">
+            <br>
+            <input type="submit" value="Search">
+            <br>
+            <p id="messageLabelText" ${hideMessageLabel ? 'style="display:none;"' : ''}>${messageLabelText}</p>
+        </form>
 
         <div class="property-listing">
-            <h1>Receipt List</h1>
+            <h1>Stall Staff List</h1>
             <table>
                 <thead>
                     <tr>
-                        <th>Receipt ID</th>
-                        <th>Feedback</th>
-                        <th>Rating</th>
-                        <th>Date Of Sale</th>
-                        <th>Order ID</th>
+                        <th>Username</th>
+                        <th>Password</th>
                     </tr>
                 </thead>
-                <tbody id="ReceiptViewTableBody" ${hideReceiptTableLabel ? 'style="display:none;"' : ''}>
+                <tbody id="sStaffViewTableBody" ${hideSStaffTableLabel ? 'style="display:none;"' : ''}>
                     <!-- Property data will be dynamically loaded here -->
 
                 </tbody>
-                <tbody id="ReceiptSearchTableBody" >
+                <tbody id="sStaffSearchTableBody" >
                     <!-- Property data will be dynamically loaded here -->
-
-                    <%  SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
-                        List<Receipt> filteredReceipt = (List<Receipt>) request.getAttribute("filteredReceipt");
-                        if (filteredReceipt != null) {
-                            for (Receipt stf : filteredReceipt) { %>
+                    <% List<SStaff> filteredSStaff = (List<SStaff>) request.getAttribute("filteredSStaff");
+                       if (filteredSStaff != null) {
+                           for (SStaff stf : filteredSStaff) { %>
                     <tr>
-                        <td><%= stf.getId() %></td>
-                        <td><%= stf.getrFeedback() %></td>
-                        <td><%= stf.getrRating() %></td>
-                        <td><%= sdf.format(stf.getrDateOfSale()) %></td>
-                        <td><%= stf.getoId() %></td>
+                        <td><%= stf.getStName() %></td>
+                        <td><%= stf.getStEmail() %></td>
+                        <td><%= stf.getStPassword() %></td>
+                        <td><%= stf.getStAge() %></td>
+                        <td><%= stf.getStPhoneNo() %></td>
+                        <td><%= stf.getStAddress() %></td>
                     </tr>
                     <% }
-                            } %>
+                           } %>
                 </tbody>
             </table>
         </div>

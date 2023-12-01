@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login Page</title>
+        <title>Edit Profile</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -20,11 +20,20 @@
             
             .container {
                 background-color: #fff;
-                padding: 30px;
+                padding: 20px;
                 border-radius: 5px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                 text-align: center;
             }
+            
+              .container form select {
+                width: 222px;
+                padding: 10px;
+                margin-bottom: 20px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                background-color: #fff;
+              }
             
             .container h1 {
                 margin-top: 0;
@@ -40,10 +49,11 @@
             }
             
             .container form input[type="text"],
+            .container form input[type="number"],
             .container form input[type="password"] {
                 width: 200px;
                 padding: 10px;
-                margin-bottom: 20px;
+                margin-bottom: 15px;
                 border: 1px solid #ccc;
                 border-radius: 3px;
                  
@@ -68,11 +78,6 @@
                 font-size: 14px;
             }
             
-            #messageLabelText {
-                color: red;
-                color: ${messageColor};
-            }
-            
             #back-image {
                 position:absolute;
                 top:10px;
@@ -80,24 +85,46 @@
                 width: 48px;
                 height: 48px;/* Adjust the image size as needed */
             }
+            
+            #messageLabelText {
+                color: red;
+                color: ${messageColor};
+            }
         </style>
     </head>
     <body>
-        <a href='home.jsp'>
-            <img id="back-image" src="images/door.png" alt="Back">
-        </a>
+        <img id="back-image" src="images/door.png" alt="Back">
+    
+        <form hidden id="BackLabel"  action="Home" method="POST"> 
+                <input id="submitEditProfile" type="submit" value="Back" />
+        </form>
         <div class="container">
-            <h1>Welcome To the Cafeteria System</h1>
-            <form action="Login" method="POST">
-                <input type="text" name="eMail" placeholder="Email">
+            <h1>Edit Your Profile</h1>
+            <form action="EditMStaffProfile" method="POST">
+                <input type="text" name="ssEditUsername" value="${uNameLabelText}" readonly>
                 <br>
-                <input type="password" name="pass" placeholder="Password">
+                <input type="password" name="ssEditCurrentPass" placeholder="Current Password">
                 <br>
-                <input type="submit" value="Login">
+                <input type="password" name="ssEditNewPass" placeholder="New Password">
+                <br>
+                <input type="password" name="ssEditConfNewPass" placeholder="Confirm New Password">
+                <br>
+                <input type="submit" value="Edit Profile">
             </form>
-            <a style="color: black;">Sign Up</a><a href="register.jsp">Sign Up!</a>
-            <br>
             <p id="messageLabelText" ${hideMessageLabel ? 'style="display:none;"' : ''}>${messageLabelText}</p>
         </div>
+        
+    <script>
+        // Add a click event listener to the image
+        var image = document.getElementById('back-image'); // Replace with your actual image ID
+        image.addEventListener('click', function() {
+            // When the image is clicked, trigger the form submission
+            var submitButton = document.getElementById('submitEditProfile');
+            submitButton.click();
+        });
+    </script>
     </body>
 </html>
+
+
+

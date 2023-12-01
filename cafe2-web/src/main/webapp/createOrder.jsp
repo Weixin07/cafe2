@@ -1,7 +1,6 @@
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="Receipt.Receipt"%>
+<%@page import="javax.ejb.EJB"%>
 <%@page import="java.util.List"%>
-<%@page import="Property.Property"%>
+<%@page import="Property.PropertyFacade"%>
 <%@page import="Property.Property"%>
 <%@ include file="master.jsp" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -15,6 +14,8 @@
     }
 
     .container form {
+        flex: 1 0 25%; /* Use flex property to fill available space with a minimum of one-third width */
+        width: 75%;
         padding: 30px;
         background-color: #fff;
         border-radius: 5px;
@@ -42,8 +43,10 @@
     }
 
     .container form input[type="text"],
+    .container form input[type="float"],
     .container form input[type="number"],
-    .container form textarea {
+    .container form input[type="text"],
+    .container form input[type="text"] {
         width: 100%;
         padding: 10px;
         margin-bottom: 20px;
@@ -51,14 +54,6 @@
         border-radius: 3px;
     }
 
-    .container form select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        background-color: #fff;
-    }
 
     .container form input[type="submit"] {
         width: 100%;
@@ -104,11 +99,6 @@
         text-align: center;
     }
 
-    #left-side{
-        padding-top:25px;
-        display:inline-block;
-        width:50%;
-    }
 
     #messageLabelText {
         color: red;
@@ -116,14 +106,24 @@
     }
 </style>
 <script>
-    document.title = "Feedback Analysis";
+    document.title = "Add Managing Order";
 
-    document.getElementById('AMSLabel').style.display = 'none';
+    document.getElementById('EPLabel').style.display = 'none';
+    document.getElementById('SMBLabel').style.display = 'none';
+    document.getElementById('SMSLabel').style.display = 'none';
+    document.getElementById('SFBALabel').style.display = 'none';
     document.getElementById('BVPHLabel').style.display = 'none';
     document.getElementById('SMRELabel').style.display = 'none';
     document.getElementById('SVPHLabel').style.display = 'none';
     document.getElementById('SAOLabel').style.display = 'none';
     document.getElementById('loginLabel').style.display = 'none';
+
+
+    // Retrieve the value from the query parameter
+    var uNameLabelText = getQueryParam('uNameLabel2');
+
+    // Set the value as the text content of the label element
+    document.getElementById('uNameLabel2').textContent = uNameLabelText;
 
 
     // Example: Smooth scroll to anchor links
@@ -146,12 +146,6 @@
         hoverDiv.classList.remove('hovered');
     });
 
-    // Retrieve the value from the query parameter
-    var uNameLabelText = getQueryParam('uNameLabel2');
-
-// Set the value as the text content of the label element
-    document.getElementById('uNameLabel2').textContent = uNameLabelText;
-
 // Function to retrieve the value from the query parameter
     function getQueryParam(name) {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -161,11 +155,11 @@
     }
 
 // Function to load the property data into the table
-    function loadReceiptTable() {
-        fetch('LoadReceiptTable')
+    function loadOrderTable() {
+        fetch('LoadOrderTable')
                 .then(response => response.text())
                 .then(data => {
-                    const propertyTableBody = document.getElementById('ReceiptViewTableBody');
+                    const propertyTableBody = document.getElementById('OrderTableBody');
                     propertyTableBody.innerHTML = data;
                 })
                 .catch(error => {
@@ -174,61 +168,51 @@
     }
 
 // Call the function to load the property table when the page loads
-    window.addEventListener('DOMContentLoaded', loadReceiptTable);
-</script>
+    window.addEventListener('DOMContentLoaded', loadOrderTable);
 
+
+</script>
 <main>
     <div class="container">
-        <div id="left-side">
-            <form class="form-container" action="SearchReceipt" method="POST">
-                <h1>Search Receipt</h1>
-                <input type="text" name="searchReceipt" placeholder="Search Receipt ID">
-                <br>
-                <input type="submit" value="Search">
-                <br>
-                <p id="messageLabelText" ${hideMessageLabel ? 'style="display:none;"' : ''}>${messageLabelText}</p>
-
-            </form>
-            <form id="ChartLabel"  class="form-container" ${hideChartLabel ? 'style="display:none;"' : ''} action="ViewCharts" method="POST"> 
-                <h1>Visualize Data</h1>
-                <input type="submit" value="Generate Charts"/>
-            </form>
-        </div>
+        <form class="form-container" id="addOrder" action="AddOrder" method="POST">
+            <h1>Add Order</h1>
+            <input type="number" name="menuID" placeholder="Menu Item ID">
+            <br>
+            <input type="text" name="menuName" placeholder="Menu Item Name">
+            <br>
+            <input type="float" name="price" placeholder="Price">
+            <br>
+            <input type="number" name="quantity" placeholder="Quantity">
+            <br>
+            <input type="text" name="cEmail" placeholder="Customer Email">
+            <br>
+            <input type="text" name="ssUsername" placeholder="Stall Staff Username">
+            <br>
+            <input type="submit" value="Add Order Member">
+            <br>
+            <p id="messageLabelText" ${hideMessageLabel ? 'style="display:none;"' : ''}>${messageLabelText}</p>
+        </form>
 
         <div class="property-listing">
-            <h1>Receipt List</h1>
+            <h1>Managing Order List</h1>
             <table>
                 <thead>
                     <tr>
-                        <th>Receipt ID</th>
-                        <th>Feedback</th>
-                        <th>Rating</th>
-                        <th>Date Of Sale</th>
-                        <th>Order ID</th>
+                        <th>Item ID</th>
+                        <th>Item Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Customer Email</th>
+                        <th>Stall Staff</th>
                     </tr>
                 </thead>
-                <tbody id="ReceiptViewTableBody" ${hideReceiptTableLabel ? 'style="display:none;"' : ''}>
+                <tbody id="OrderTableBody">
                     <!-- Property data will be dynamically loaded here -->
-
-                </tbody>
-                <tbody id="ReceiptSearchTableBody" >
-                    <!-- Property data will be dynamically loaded here -->
-
-                    <%  SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
-                        List<Receipt> filteredReceipt = (List<Receipt>) request.getAttribute("filteredReceipt");
-                        if (filteredReceipt != null) {
-                            for (Receipt stf : filteredReceipt) { %>
-                    <tr>
-                        <td><%= stf.getId() %></td>
-                        <td><%= stf.getrFeedback() %></td>
-                        <td><%= stf.getrRating() %></td>
-                        <td><%= sdf.format(stf.getrDateOfSale()) %></td>
-                        <td><%= stf.getoId() %></td>
-                    </tr>
-                    <% }
-                            } %>
                 </tbody>
             </table>
         </div>
     </div>
 </main>
+
+
+

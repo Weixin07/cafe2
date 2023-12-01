@@ -13,7 +13,7 @@
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
-                background-image: url('images/skylineBG.jpg'); /* Replace 'path/to/your/background.jpg' with the actual path to your background image */
+                background-image: url('images/bg.jpg');
                 background-size: cover;
                 background-repeat: no-repeat;
             }
@@ -87,7 +87,7 @@
             <img id="back-image" src="images/door.png" alt="Back">
         </a>
         <div class="container">
-            <h1>Welcome To Unreal Estate</h1>
+            <h1>Welcome To the Cafeteria System</h1>
             <form action="Login" method="POST">
                 <input type="text" name="eMail" placeholder="Email">
                 <br>
@@ -95,7 +95,7 @@
                 <br>
                 <input type="submit" value="Login">
             </form>
-            <a style="color: black;">First time here? </a><a href="register.jsp">Sign Up!</a>
+            <a style="color: black;">Sign Up</a><a href="register.jsp">Sign Up!</a>
             <br>
             <p id="messageLabelText" ${hideMessageLabel ? 'style="display:none;"' : ''}>${messageLabelText}</p>
         </div>

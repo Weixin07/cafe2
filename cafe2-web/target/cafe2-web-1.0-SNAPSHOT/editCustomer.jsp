@@ -1,5 +1,3 @@
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="Receipt.Receipt"%>
 <%@page import="java.util.List"%>
 <%@page import="Property.Property"%>
 <%@page import="Property.Property"%>
@@ -14,7 +12,9 @@
         height: 100vh; /* Set container height to occupy the entire page */
     }
 
-    .container form {
+    .container form  {
+        flex: 1 0 25%; /* Use flex property to fill available space with a minimum of one-third width */
+        width: 75%;
         padding: 30px;
         background-color: #fff;
         border-radius: 5px;
@@ -28,6 +28,7 @@
         background-color: #fff;
         border-radius: 5px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-collapse: collapse;
     }
 
     .container h1 {
@@ -70,10 +71,6 @@
         cursor: pointer;
     }
 
-    .container table {
-        border-collapse: collapse;
-        width: 100%;
-    }
 
     .container table th,
     .container table td {
@@ -104,10 +101,10 @@
         text-align: center;
     }
 
+
     #left-side{
-        padding-top:25px;
         display:inline-block;
-        width:50%;
+        width:inherit;
     }
 
     #messageLabelText {
@@ -116,15 +113,20 @@
     }
 </style>
 <script>
-    document.title = "Feedback Analysis";
+    document.title = "Edit Customer Customer";
 
     document.getElementById('AMSLabel').style.display = 'none';
-    document.getElementById('BVPHLabel').style.display = 'none';
     document.getElementById('SMRELabel').style.display = 'none';
     document.getElementById('SVPHLabel').style.display = 'none';
     document.getElementById('SAOLabel').style.display = 'none';
+    document.getElementById('BVPHLabel').style.display = 'none';
     document.getElementById('loginLabel').style.display = 'none';
 
+    // Retrieve the value from the query parameter
+    var uNameLabelText = getQueryParam('uNameLabel2');
+
+    // Set the value as the text content of the label element
+    document.getElementById('uNameLabel2').textContent = uNameLabelText;
 
     // Example: Smooth scroll to anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -146,12 +148,6 @@
         hoverDiv.classList.remove('hovered');
     });
 
-    // Retrieve the value from the query parameter
-    var uNameLabelText = getQueryParam('uNameLabel2');
-
-// Set the value as the text content of the label element
-    document.getElementById('uNameLabel2').textContent = uNameLabelText;
-
 // Function to retrieve the value from the query parameter
     function getQueryParam(name) {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -160,75 +156,85 @@
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
 
+    function populateFormFields(row) {
+        const cells = row.getElementsByTagName('td');
+        const form = document.getElementById('editCustomerForm');
+
+        // Populate form fields with cell values
+        form.elements['cEmail'].value = cells[0].textContent;
+        form.elements['cPassword'].value = cells[1].textContent;
+        form.elements['cName'].value = cells[2].textContent;
+        form.elements['cAge'].value = cells[3].textContent;
+        form.elements['cGender'].value = cells[4].textContent;
+    }
+
 // Function to load the property data into the table
-    function loadReceiptTable() {
-        fetch('LoadReceiptTable')
+    function loadCustomerTable() {
+        fetch('LoadCustomerTable')
                 .then(response => response.text())
                 .then(data => {
-                    const propertyTableBody = document.getElementById('ReceiptViewTableBody');
+                    const propertyTableBody = document.getElementById('CustomerViewTableBody');
                     propertyTableBody.innerHTML = data;
+
+                    // Add event listeners to table rows
+                    const rows = propertyTableBody.getElementsByTagName('tr');
+                    for (let i = 0; i < rows.length; i++) {
+                        rows[i].addEventListener('click', function () {
+                            populateFormFields(this);
+                        });
+                    }
                 })
                 .catch(error => {
-                    console.error('Error loading property table:', error);
+                    console.error('Error loading Customer table:', error);
                 });
+
+
     }
 
 // Call the function to load the property table when the page loads
-    window.addEventListener('DOMContentLoaded', loadReceiptTable);
+    window.addEventListener('DOMContentLoaded', loadCustomerTable);
+
+
 </script>
 
 <main>
     <div class="container">
-        <div id="left-side">
-            <form class="form-container" action="SearchReceipt" method="POST">
-                <h1>Search Receipt</h1>
-                <input type="text" name="searchReceipt" placeholder="Search Receipt ID">
-                <br>
-                <input type="submit" value="Search">
-                <br>
-                <p id="messageLabelText" ${hideMessageLabel ? 'style="display:none;"' : ''}>${messageLabelText}</p>
-
-            </form>
-            <form id="ChartLabel"  class="form-container" ${hideChartLabel ? 'style="display:none;"' : ''} action="ViewCharts" method="POST"> 
-                <h1>Visualize Data</h1>
-                <input type="submit" value="Generate Charts"/>
-            </form>
-        </div>
+        <form class="form-container" id="editCustomerForm" action="EditCustomer" method="POST">
+            <h1>Edit Customer</h1>
+            <input type="text" name="cEmail" placeholder="Email" readonly>
+            <br>
+            <input type="text" name="cPassword" placeholder="Password">
+            <br>
+            <input type="text" name="cName" placeholder="Name">
+            <br>            
+            <input type="integer" name="cAge" placeholder="Age">
+            <br>            
+            <input type="text" name="cGender" placeholder="Gender">
+            <br>
+            <input type="submit" value="Edit Customer">
+            <br>
+            <p id="messageLabelText" ${hideMessageLabel ? 'style="display:none;"' : ''}>${messageLabelText}</p>
+        </form>
 
         <div class="property-listing">
-            <h1>Receipt List</h1>
+            <h1>Customer List</h1>
             <table>
                 <thead>
                     <tr>
-                        <th>Receipt ID</th>
-                        <th>Feedback</th>
-                        <th>Rating</th>
-                        <th>Date Of Sale</th>
-                        <th>Order ID</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
                     </tr>
                 </thead>
-                <tbody id="ReceiptViewTableBody" ${hideReceiptTableLabel ? 'style="display:none;"' : ''}>
+                <tbody id="CustomerViewTableBody">
                     <!-- Property data will be dynamically loaded here -->
 
-                </tbody>
-                <tbody id="ReceiptSearchTableBody" >
-                    <!-- Property data will be dynamically loaded here -->
-
-                    <%  SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
-                        List<Receipt> filteredReceipt = (List<Receipt>) request.getAttribute("filteredReceipt");
-                        if (filteredReceipt != null) {
-                            for (Receipt stf : filteredReceipt) { %>
-                    <tr>
-                        <td><%= stf.getId() %></td>
-                        <td><%= stf.getrFeedback() %></td>
-                        <td><%= stf.getrRating() %></td>
-                        <td><%= sdf.format(stf.getrDateOfSale()) %></td>
-                        <td><%= stf.getoId() %></td>
-                    </tr>
-                    <% }
-                            } %>
                 </tbody>
             </table>
         </div>
     </div>
 </main>
+
+

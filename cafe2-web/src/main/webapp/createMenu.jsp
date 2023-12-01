@@ -1,8 +1,7 @@
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="Receipt.Receipt"%>
+<%@page import="javax.ejb.EJB"%>
 <%@page import="java.util.List"%>
-<%@page import="Property.Property"%>
-<%@page import="Property.Property"%>
+<%@page import="Menu.MenuFacade"%>
+<%@page import="Menu.Menu"%>
 <%@ include file="master.jsp" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -15,6 +14,8 @@
     }
 
     .container form {
+        flex: 1 0 50%; /* Use flex property to fill available space with a minimum of one-third width */
+        width: 95%;
         padding: 30px;
         background-color: #fff;
         border-radius: 5px;
@@ -23,7 +24,7 @@
 
     .container table {
         flex: 1; /* Use flex property to fill available space */
-        width: 50%;
+        width: 10%;
         padding: 30px;
         background-color: #fff;
         border-radius: 5px;
@@ -42,7 +43,7 @@
     }
 
     .container form input[type="text"],
-    .container form input[type="number"],
+    .container form input[type="float"],
     .container form textarea {
         width: 100%;
         padding: 10px;
@@ -104,10 +105,42 @@
         text-align: center;
     }
 
+    .container .slider-toggle {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .container .slider-toggle label {
+        background-color: #ccc;
+        padding: 10px 20px;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 20px;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .container .slider-toggle input[type="radio"] {
+        display: none;
+    }
+
+    .container .slider-toggle input[type="radio"]:checked + label {
+        background-color: #4CAF50;
+    }
+
+    .container #saleForm {
+        display:block;
+    }
+
+    .container #rentalForm {
+        display:none;
+        overflow: hidden;
+    }
+
     #left-side{
-        padding-top:25px;
+        padding-top:30px;
         display:inline-block;
-        width:50%;
+        width:33%;
     }
 
     #messageLabelText {
@@ -116,15 +149,39 @@
     }
 </style>
 <script>
-    document.title = "Feedback Analysis";
-
+    document.title = "Add Menu Item";
     document.getElementById('AMSLabel').style.display = 'none';
     document.getElementById('BVPHLabel').style.display = 'none';
-    document.getElementById('SMRELabel').style.display = 'none';
-    document.getElementById('SVPHLabel').style.display = 'none';
-    document.getElementById('SAOLabel').style.display = 'none';
+    document.getElementById('SMBLabel').style.display = 'none';
+    document.getElementById('SMSLabel').style.display = 'none';
+    document.getElementById('SFBALabel').style.display = 'none';
     document.getElementById('loginLabel').style.display = 'none';
 
+    // Retrieve the value from the query parameter
+    var uNameLabelText = getQueryParam('uNameLabel2');
+
+    // Set the value as the text content of the label element
+    document.getElementById('uNameLabel2').textContent = uNameLabelText;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const buyerButton = document.getElementById('saleButton');
+        const sellerButton = document.getElementById('rentalButton');
+        const buyerForm = document.getElementById('saleForm');
+        const sellerForm = document.getElementById('rentalForm');
+
+
+        buyerButton.addEventListener('click', function () {
+            buyerForm.style.display = 'block';
+            sellerForm.style.display = 'none';
+            //document.getElementById('pSaleType').value = 'Sale';
+        });
+
+        sellerButton.addEventListener('click', function () {
+            buyerForm.style.display = 'none';
+            sellerForm.style.display = 'block';
+            //document.getElementById('pSaleType').value = 'Rent';
+        });
+    });
 
     // Example: Smooth scroll to anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -146,12 +203,6 @@
         hoverDiv.classList.remove('hovered');
     });
 
-    // Retrieve the value from the query parameter
-    var uNameLabelText = getQueryParam('uNameLabel2');
-
-// Set the value as the text content of the label element
-    document.getElementById('uNameLabel2').textContent = uNameLabelText;
-
 // Function to retrieve the value from the query parameter
     function getQueryParam(name) {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -161,74 +212,51 @@
     }
 
 // Function to load the property data into the table
-    function loadReceiptTable() {
-        fetch('LoadReceiptTable')
+    function loadMenuTable() {
+        fetch('LoadMenuTable')
                 .then(response => response.text())
                 .then(data => {
-                    const propertyTableBody = document.getElementById('ReceiptViewTableBody');
-                    propertyTableBody.innerHTML = data;
+                    const menuTableBody = document.getElementById('menuTableBody');
+                    menuTableBody.innerHTML = data;
                 })
                 .catch(error => {
-                    console.error('Error loading property table:', error);
+                    console.error('Error loading menu table:', error);
                 });
     }
 
 // Call the function to load the property table when the page loads
-    window.addEventListener('DOMContentLoaded', loadReceiptTable);
-</script>
+    window.addEventListener('DOMContentLoaded', loadMenuTable);
 
+
+</script>
 <main>
+
     <div class="container">
-        <div id="left-side">
-            <form class="form-container" action="SearchReceipt" method="POST">
-                <h1>Search Receipt</h1>
-                <input type="text" name="searchReceipt" placeholder="Search Receipt ID">
+        <div id=left-side>
+            <h1>Add Menu</h1>
+            <form class="form-container" id="saleForm" action="CreateMenu" method="POST" enctype="multipart/form-data">
+                <input type="text" name="menuName" placeholder="Name of Item">
                 <br>
-                <input type="submit" value="Search">
+                <input type="float" name="price" placeholder="Price">
+                <br>
+                <input type="submit" value="List Menu">
                 <br>
                 <p id="messageLabelText" ${hideMessageLabel ? 'style="display:none;"' : ''}>${messageLabelText}</p>
-
             </form>
-            <form id="ChartLabel"  class="form-container" ${hideChartLabel ? 'style="display:none;"' : ''} action="ViewCharts" method="POST"> 
-                <h1>Visualize Data</h1>
-                <input type="submit" value="Generate Charts"/>
-            </form>
+
+            <div class="menu-listing">
+                <h1>Menu List</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menuTableBody">
+                        <!-- Property data will be dynamically loaded here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
-
-        <div class="property-listing">
-            <h1>Receipt List</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Receipt ID</th>
-                        <th>Feedback</th>
-                        <th>Rating</th>
-                        <th>Date Of Sale</th>
-                        <th>Order ID</th>
-                    </tr>
-                </thead>
-                <tbody id="ReceiptViewTableBody" ${hideReceiptTableLabel ? 'style="display:none;"' : ''}>
-                    <!-- Property data will be dynamically loaded here -->
-
-                </tbody>
-                <tbody id="ReceiptSearchTableBody" >
-                    <!-- Property data will be dynamically loaded here -->
-
-                    <%  SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
-                        List<Receipt> filteredReceipt = (List<Receipt>) request.getAttribute("filteredReceipt");
-                        if (filteredReceipt != null) {
-                            for (Receipt stf : filteredReceipt) { %>
-                    <tr>
-                        <td><%= stf.getId() %></td>
-                        <td><%= stf.getrFeedback() %></td>
-                        <td><%= stf.getrRating() %></td>
-                        <td><%= sdf.format(stf.getrDateOfSale()) %></td>
-                        <td><%= stf.getoId() %></td>
-                    </tr>
-                    <% }
-                            } %>
-                </tbody>
-            </table>
-        </div>
-    </div>
 </main>
