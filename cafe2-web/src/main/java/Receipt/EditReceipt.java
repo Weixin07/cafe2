@@ -5,12 +5,11 @@
  */
 package Receipt;
 
-import sAdmin.SAdmin;
+import Customer.Customer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,70 +17,62 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.text.ParseException;
 
 @WebServlet(name = "EditReceipt", urlPatterns = {"/EditReceipt"})
 public class EditReceipt extends HttpServlet {
-    
-    @EJB 
+    @EJB
     ReceiptFacade rf;
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession s = request.getSession();
-        SAdmin buyer = (SAdmin)s.getAttribute("user");
+            response.setContentType("text/html;charset=UTF-8");
+            HttpSession s = request.getSession();
+            Customer customer = (Customer) s.getAttribute("customer");
 
-        try{
-        int rId = Integer.parseInt(request.getParameter("rId"));
-        String rFeedback = request.getParameter("rFeedback");
-        int rRating = Integer.parseInt(request.getParameter("rRating"));
-        String rDateOfSale = request.getParameter("rDateOfSale");
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
-        Date rDOS = sdf.parse(rDateOfSale);
-        
-        int oId = Integer.parseInt(request.getParameter("oId"));
+            try {
+                int receiptID = Integer.parseInt(request.getParameter("receiptID"));
+                String rFeedback = request.getParameter("rFeedback");
+                int rRating = Integer.parseInt(request.getParameter("rRating"));
+                String rDateOfSale = request.getParameter("rDateOfSale");
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
+                Date rDOS = sdf.parse(rDateOfSale);
 
-        
-                if(rFeedback.length()< 8){
-                    request.setAttribute("messageLabelText", "Invalid Feedback, Please Write a few words");
+                int OrderID = Integer.parseInt(request.getParameter("OrderID"));
+                if (rFeedback.length() < 0) {
+                    request.setAttribute("messageLabelText", "Please type in the feedback.");
                     request.setAttribute("hideMessageLabel", false);
-                    request.setAttribute("uNameLabelText", buyer.getbUsername());
+                    request.setAttribute("uNameLabelText", customer.getcEmail());
                     request.getRequestDispatcher("viewPurchaseHistory.jsp").include(request, response);
-                  
-                
-                }else if(rRating < 1 || rRating > 5){
-                    request.setAttribute("messageLabelText", "Make sure rating is between 1 & 5");
+                } else if (rRating < 1 || rRating > 5) {
+                    request.setAttribute("messageLabelText", "Rate from 1 to 5 only.");
                     request.setAttribute("hideMessageLabel", false);
-                    request.setAttribute("uNameLabelText", buyer.getbUsername());
+                    request.setAttribute("uNameLabelText", customer.getcEmail());
                     request.getRequestDispatcher("viewPurchaseHistory.jsp").include(request, response);
-                
-                }else{
+                } else {
                     Receipt rec = new Receipt();
-                    rec.setId(rId);
+                    rec.setReceiptID(receiptID);
                     rec.setrFeedback(rFeedback);
                     rec.setrRating(rRating);
                     rec.setrDateOfSale(rDOS);
-                    rec.setoId(oId);
-                    // Save the property details in the database
+                    rec.setOrderID(OrderID);
+                    // Save the receipt details in the database
                     rf.edit(rec);
-                    
-                //request.setAttribute("property", property);
-                String c ="green";
-                request.setAttribute("messageColor", c);
-                request.setAttribute("messageLabelText", "Thank you for the Feedback!");
-                request.setAttribute("hideMessageLabel", false);
-                request.setAttribute("uNameLabelText", buyer.getbUsername());
-                request.getRequestDispatcher("viewPurchaseHistory.jsp").include(request, response);
+
+                    String c = "green";
+                    request.setAttribute("messageColor", c);
+                    request.setAttribute("messageLabelText", "Thank you for the Feedback!");
+                    request.setAttribute("hideMessageLabel", false);
+                    request.setAttribute("uNameLabelText", customer.getcEmail());
+                    request.getRequestDispatcher("viewPurchaseHistory.jsp").include(request, response);
                 }
-            }catch(Exception e){
-                
-                request.setAttribute("messageLabelText","Invalid Feedback Details, Please Try Again!");
+            } catch (ServletException | IOException | NumberFormatException | ParseException e) {
+                request.setAttribute("messageLabelText", "Error, please try again.");
                 request.setAttribute("hideMessageLabel", false);
-                request.setAttribute("uNameLabelText", buyer.getbUsername());
+                request.setAttribute("uNameLabelText", customer.getcEmail());
                 request.getRequestDispatcher("viewPurchaseHistory.jsp").include(request, response);
-                
             }
         }
     }

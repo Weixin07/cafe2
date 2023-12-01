@@ -16,8 +16,8 @@ import jakarta.servlet.http.HttpSession;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,
         maxFileSize = 1024 * 1024 * 10,
         maxRequestSize = 1024 * 1024 * 50)
-public class CreateMenu extends HttpServlet {
 
+public class CreateMenu extends HttpServlet {
     @EJB
     private MenuFacade mf;
 
@@ -51,7 +51,7 @@ public class CreateMenu extends HttpServlet {
 
                     String c = "green";
                     request.setAttribute("messageColor", c);
-                    request.setAttribute("messageLabelText", "Property Successfully Created!");
+                    request.setAttribute("messageLabelText", "Item is added.");
                     request.setAttribute("hideMessageLabel", false);
                     request.setAttribute("uNameLabelText", sstaff.getSsUsername());
                     request.getRequestDispatcher("createMenu.jsp").include(request, response);

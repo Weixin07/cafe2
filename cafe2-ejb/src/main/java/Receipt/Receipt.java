@@ -15,39 +15,40 @@ public class Receipt implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer rId;
-    private int oId;
+    private Integer receiptID;
+    private int OrderID;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date rDateOfSale;
     private String rFeedback;
     private int rRating;
 
-    public Receipt(Integer rId, String rFeedback, int rRating, Date rDateOfSale, int oId) {
-        this.rId = rId;
+    public Receipt(Integer receiptID, int OrderID, Date rDateOfSale, String rFeedback, int rRating) {
+        this.receiptID = receiptID;
+        this.OrderID = OrderID;
         this.rDateOfSale = rDateOfSale;
         this.rFeedback = rFeedback;
         this.rRating = rRating;
-        this.oId = oId;
-    }
-    public Receipt() {
     }
     
-    public Integer getId() {
-        return rId;
+    public Receipt() {
     }
 
-    public void setId(Integer rId) {
-        this.rId = rId;
+    public Integer getReceiptID() {
+        return receiptID;
     }
 
-    public Integer getrId() {
-        return rId;
+    public void setReceiptID(Integer receiptID) {
+        this.receiptID = receiptID;
     }
 
-    public void setrId(Integer rId) {
-        this.rId = rId;
+    public int getOrderID() {
+        return OrderID;
     }
 
+    public void setOrderID(int OrderID) {
+        this.OrderID = OrderID;
+    }
+    
     public Date getrDateOfSale() {
         return rDateOfSale;
     }
@@ -71,19 +72,11 @@ public class Receipt implements Serializable {
     public void setrRating(int rRating) {
         this.rRating = rRating;
     }
-
-    public int getoId() {
-        return oId;
-    }
-
-    public void setoId(int oId) {
-        this.oId = oId;
-    }
     
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (rId != null ? rId.hashCode() : 0);
+        hash += (receiptID != null ? receiptID.hashCode() : 0);
         return hash;
     }
 
@@ -94,7 +87,7 @@ public class Receipt implements Serializable {
             return false;
         }
         Receipt other = (Receipt) object;
-        if ((this.rId == null && other.rId != null) || (this.rId != null && !this.rId.equals(other.rId))) {
+        if ((this.receiptID == null && other.receiptID != null) || (this.receiptID != null && !this.receiptID.equals(other.receiptID))) {
             return false;
         }
         return true;
@@ -102,7 +95,7 @@ public class Receipt implements Serializable {
 
     @Override
     public String toString() {
-        return "Receipt.Receipt[ rId=" + rId + " ]";
+        return "Receipt.Receipt[ rId=" + receiptID + " ]";
     }
     
 }

@@ -1,12 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Receipt;
 
-import Receipt.*;
-import SStaff.SStaff;
 import MStaff.MStaff;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,56 +13,51 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
 @WebServlet(name = "SearchReceipt", urlPatterns = {"/SearchReceipt"})
 public class SearchReceipt extends HttpServlet {
- 
-    @EJB 
-    ReceiptFacade stf;
-    
+
+    @EJB
+    ReceiptFacade rf;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       
+
         HttpSession s = request.getSession();
-        MStaff staff = (MStaff)s.getAttribute("staff");
-        
-        
+        MStaff mstaff = (MStaff) s.getAttribute("mstaff");
+
         try (PrintWriter out = response.getWriter()) {
-        try{
-            String searchReceipt = request.getParameter("searchReceipt");
-            // Retrieve the filtered property data based on the search address from the database
-            List<Receipt> receiptList = stf.findAll();
-            List<Receipt> filteredReceipt = new ArrayList<>();
-            boolean pFound = false;
-            
-            
-            for(Receipt sTf : receiptList){
-                if (sTf.getrId().toString().equals(searchReceipt)) {
-                    filteredReceipt.add(sTf);
-                    pFound = true;
+            try {
+                String searchReceipt = request.getParameter("searchReceipt");
+                // Retrieve the filtered data based on the search
+                List<Receipt> receiptList = rf.findAll();
+                List<Receipt> filteredReceipt = new ArrayList<>();
+                boolean rFound = false;
+
+                for (Receipt rL : receiptList) {
+                    if (rL.getReceiptID().toString().equals(searchReceipt)) {
+                        filteredReceipt.add(rL);
+                        rFound = true;
                     }
                 }
-            
-            if(pFound==false){
-                request.setAttribute("messageLabelText","No Receipt Found, Please Try Again!");
+                if (rFound == false) {
+                    request.setAttribute("messageLabelText", "Receipt does not exist, please try again.");
                     request.setAttribute("hideMessageLabel", false);
-                    request.setAttribute("uNameLabelText", staff.getStName());
+                    request.setAttribute("uNameLabelText", mstaff.getMsUsername());
                     request.getRequestDispatcher("feedbackAnalysis.jsp").include(request, response);
-            }else{
-            
-            // Set the filtered property data as an attribute in the request or session scope
-            request.setAttribute("filteredReceipt", filteredReceipt);
-            request.setAttribute("uNameLabelText", staff.getStName());
-            request.setAttribute("hideReceiptTableLabel", true);}
-            // Forward the request to the searchProperty.jsp page
-            request.getRequestDispatcher("feedbackAnalysis.jsp").forward(request, response);
-            }catch(Exception e){
-                request.setAttribute("messageLabelText","Error fetching Receipt, Please Try Again!" + e);
+                } else {
+                    // Set the filtered data as an attribute
+                    request.setAttribute("filteredReceipt", filteredReceipt);
+                    request.setAttribute("uNameLabelText", mstaff.getMsUsername());
+                    request.setAttribute("hideReceiptTableLabel", true);
+                }
+                // Forward the request to the jsp page
+                request.getRequestDispatcher("feedbackAnalysis.jsp").forward(request, response);
+            } catch (ServletException | IOException e) {
+                request.setAttribute("messageLabelText", "Error. Please try again." + e);
                 request.setAttribute("hideMessageLabel", false);
-                request.setAttribute("uNameLabelText", staff.getStName());
+                request.setAttribute("uNameLabelText", mstaff.getMsUsername());
                 request.setAttribute("hideReceiptTableLabel", true);
-        
             }
         }
     }

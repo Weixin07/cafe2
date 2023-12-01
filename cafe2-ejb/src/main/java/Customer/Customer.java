@@ -17,13 +17,15 @@ public class Customer implements Serializable {
     private String cName;
     private int cAge;
     private String cGender;
+    private String msUsername;
 
-    public Customer(String cEmail, String cPassword, String cName, int cAge, String cGender) {
+    public Customer(String cEmail, String cPassword, String cName, int cAge, String cGender, String msUsername) {
         this.cEmail = cEmail;
         this.cPassword = cPassword;
         this.cName = cName;
         this.cAge = cAge;
         this.cGender = cGender;
+        this.msUsername = msUsername;
     }
 
     public Customer() {
@@ -45,8 +47,8 @@ public class Customer implements Serializable {
     public void setcPassword(String cPassword) {
         this.cPassword = cPassword;
     }
-    
-        public String getcName() {
+
+    public String getcName() {
         return cName;
     }
 
@@ -70,6 +72,14 @@ public class Customer implements Serializable {
         this.cGender = cGender;
     }
 
+    public String getMsUsername() {
+        return msUsername;
+    }
+
+    public void setMsUsername(String msUsername) {
+        this.msUsername = msUsername;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -91,5 +101,4 @@ public class Customer implements Serializable {
     public String toString() {
         return "Customer.Customer[ cEmail=" + cEmail + " ]";
     }
-
 }
