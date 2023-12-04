@@ -1,0 +1,210 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+h1{
+   color: #ffd700 !important;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 80px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #111;
+  color: #ccc; /* Silver font color */
+}
+
+main {
+  flex: 1;
+  padding-bottom: 20px; /* Add spacing at the bottom of the content */
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #5A5A5A;
+  padding: 10px;
+}
+
+nav a {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+nav a:hover {
+  background-color: #45a049;
+}
+
+.custom-button {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.custom-button:hover {
+  background-color: #45a049;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-left a {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.nav-left a:hover {
+  background-color: #45a049;
+}
+
+.nav-right {
+  position: relative;
+}
+
+.additional-labels {
+  display: none;
+  position: absolute;
+  background-color: #5A5A5A;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  right: 5px;
+  width: 200px;
+  z-index: 9999; /* Added z-index */
+}
+
+.additional-labels a {
+  display: block;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.additional-labels .custom-button {
+  margin-bottom: 10px;
+}
+
+.registration-form {
+  display: none;
+}
+
+.registration-form.active {
+  display: block;
+}
+
+.slider-container {
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  overflow: hidden;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.slide {
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slide form {
+  display: none;
+  background-color: #111; /* Black background for forms */
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.slide form input,
+.slide form select,
+.slide form textarea {
+  color: #000 !important; /* Silver font color for form elements */
+}
+
+.slide.active form {
+  display: block;
+}
+
+tbody {
+  background-color: #111; /* Black background for tables */
+  color: #ccc; /* Silver font color for table text */
+}
+
+table th {
+    background-color: #111 !important;
+  }
+
+thead{
+ background-color: #111 !important; 
+ color: #0f8a3f; 
+}
+tbody tr:nth-child(even) {
+  background-color: #222;
+}
+
+tbody tr:hover {
+  background-color: #1DB954;
+  color: #111;
+  transform: scale(1.03);
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.container table{
+    margin-right: 35px !important;
+}
+
+.form-container {
+  background-color: #111 !important;
+  margin-right:25px;
+  /* Add any other common styles for forms here */
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+  color: #000 !important; /* Silver font color for form elements */
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  align-self: center;
+}

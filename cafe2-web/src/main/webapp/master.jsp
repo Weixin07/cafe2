@@ -21,7 +21,7 @@
     <div class="nav-right">
         
         <form style="display:inline-block" ${hidePropertyListingsLabel ? 'style="display:none;"' : ''} action="LoadPropertyListings" method="POST"> 
-                <input type="submit" value="Property Listings" class="custom-button"/>
+                <input type="submit" value="Menu" class="custom-button"/>
         </form>
               &nbsp; &nbsp; &nbsp; 
         <a id="loginLabel" ${hideLoginLabel ? 'style="display:none;"' : ''} href="login.jsp">Login</a>

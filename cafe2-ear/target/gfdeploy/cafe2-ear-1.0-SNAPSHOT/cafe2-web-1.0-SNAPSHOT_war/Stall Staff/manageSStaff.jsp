@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Manage Customer</title>
+        <title>Manage SStaff</title>
         <style>
             * {
                 margin: 0;
@@ -18,21 +18,14 @@
 
             body {
                 display: flex;
+                flex-wrap: wrap;
                 overflow: hidden;
                 background-color: #111;
             }
 
-            .quadrant-container {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 33.33%;
-                height: 100%;
-            }
-
             .quadrant {
-                width: 100%;
-                height: 100%;
+                width: 50%;
+                height: 50%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -57,10 +50,16 @@
                 transition: opacity 0.5s;
             }
 
-            #quadrantR:before {
+            #quadrantC:before {
                 top: 0;
                 right: 0;
                 box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.6);
+            }
+
+            #quadrantR:before {
+                top: 0;
+                left: 0;
+                box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.6);
             }
 
             #quadrantU:before {
@@ -94,6 +93,10 @@
                 pointer-events: none;
             }
 
+            #quadrantC {
+                background-color: #00c853;
+            }
+
             #quadrantR {
                 background-color: #1565c0;
             }
@@ -110,19 +113,20 @@
         <script>
             function handleClick(quadrant) {
                 switch (quadrant) {
+                    case 'A':
+                        window.location.href = "approveSStaff.jsp?uNameLabel2=" + encodeURIComponent(document.getElementById("uNameLabelText").textContent);
+                        break;
                     case 'S':
-                        window.location.href = "register.jsp?uNameLabel2=" + encodeURIComponent(document.getElementById("uNameLabelText").textContent);
+                        window.location.href = "searchSStaff.jsp?uNameLabel2=" + encodeURIComponent(document.getElementById("uNameLabelText").textContent);
                         break;
                     case 'E':
-                        window.location.href = "editCustomerProfile.jsp?uNameLabel2=" + encodeURIComponent(document.getElementById("uNameLabelText").textContent);
+                        window.location.href = "editSStaff.jsp?uNameLabel2=" + encodeURIComponent(document.getElementById("uNameLabelText").textContent);
                         break;
                     case 'D':
-                        window.location.href = "menuListings.jsp?uNameLabel2=" + encodeURIComponent(document.getElementById("uNameLabelText").textContent);
-                        break;
-                    case 'M':
-                        window.location.href = "createOrder.jsp?uNameLabel2=" + encodeURIComponent(document.getElementById("uNameLabelText").textContent);
+                        window.location.href = "deleteSStaff.jsp?uNameLabel2=" + encodeURIComponent(document.getElementById("uNameLabelText").textContent);
                         break;
                 }
+                
             }
 
             function changeText(elementId, newText) {
@@ -133,25 +137,17 @@
     </head>
     <body>
         <a id="uNameLabelText" style="display: none;">${uNameLabelText}</a>
-        <div class="quadrant-container">
-            <div id="quadrantR" class="quadrant" onmouseover="changeText('rText', 'Search')" onmouseout="changeText('rText', 'S')" onclick="handleClick('S')">
-                <span id="rText" class="label">S</span>
-            </div>
+        <div id="quadrantC" class="quadrant" onmouseover="changeText('cText', 'Approve')" onmouseout="changeText('cText', 'A')" onclick="handleClick('A')">
+            <span id="cText" class="label">A</span>
         </div>
-        <div class="quadrant-container">
-            <div id="quadrantU" class="quadrant" onmouseover="changeText('uText', 'Edit')" onmouseout="changeText('uText', 'E')" onclick="handleClick('E')">
-                <span id="uText" class="label">E</span>
-            </div>
+        <div id="quadrantR" class="quadrant" onmouseover="changeText('rText', 'Search')" onmouseout="changeText('rText', 'S')" onclick="handleClick('S')">
+            <span id="rText" class="label">S</span>
         </div>
-        <div class="quadrant-container">
-            <div id="quadrantD" class="quadrant" onmouseover="changeText('dText', 'Delete')" onmouseout="changeText('dText', 'D')" onclick="handleClick('D')">
-                <span id="dText" class="label">D</span>
-            </div>
+        <div id="quadrantU" class="quadrant" onmouseover="changeText('uText', 'Edit')" onmouseout="changeText('uText', 'E')" onclick="handleClick('E')">
+            <span id="uText" class="label">E</span>
         </div>
-        <div class="quadrant-container">
-            <div id="quadrantM" class="quadrant" onmouseover="changeText('dText', 'Delete')" onmouseout="changeText('dText', 'D')" onclick="handleClick('D')">
-                <span id="dText" class="label">M</span>
-            </div>
+        <div id="quadrantD" class="quadrant" onmouseover="changeText('dText', 'Delete')" onmouseout="changeText('dText', 'D')" onclick="handleClick('D')">
+            <span id="dText" class="label">D</span>
         </div>
     </body>
 </html>
